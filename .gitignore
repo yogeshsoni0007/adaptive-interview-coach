@@ -1,0 +1,25 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/
+**/venv/
+
+
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+recordings/
+.DS_Store
+.ipynb_checkpoints/
+
+build/
+dist/
+
+# Local planning artifacts
+/1.ipynb
+/AI_Interview_Coach_Project_Tracker.docx
