@@ -75,48 +75,6 @@ document text. Other endpoints retain the OpenAI-compatible path.
 Audio files use `question_01.wav`, `question_01_followup_01.wav`, etc. Metadata includes the
 actual question asked, transcript, analysis, processing status, and failure details.
 
-## Tests and linting
-
-```bash
-python -m pytest
-python -m ruff check app.py src/interview_coach/provider.py src/interview_coach/schemas.py src/interview_coach/prompt.py src/interview_coach/service.py src/interview_coach/recording.py tests/test_adaptive_flow.py tests/test_provider.py
-```
-
-The default suite uses mocks and costs no model tokens. Streamlit AppTest runs the real
-application submission/rerun flow, while mocked HTTP responses exercise SDK parsing and failover.
-
-An opt-in integration test uses a WAV containing a vague answer, cached local Whisper,
-and local Qwen. It verifies that a real transcription produces a visible follow-up:
-
-```bash
-INTERVIEW_LIVE_WAV=/absolute/path/to/vague-answer.wav HF_HUB_OFFLINE=1 python -m pytest tests/test_adaptive_flow.py::test_live_local_audio_to_visible_followup -q -s
-```
-
-This test uses synthetic setup documents/questions and no paid provider. It injects recorded
-audio at the microphone widget boundary; physical microphone permissions and browser speech
-playback still need a manual check. Other providers keep their usual thinking settings.
-
-The full local integration test also generates ten real questions from long synthetic documents
-and runs the entire interview through follow-ups and completion:
-
-```bash
-INTERVIEW_LIVE_FULL_WAV=/absolute/path/to/vague-answer.wav HF_HUB_OFFLINE=1 python -m pytest tests/test_adaptive_flow.py::test_live_generation_audio_followups_and_completion -q -s
-```
-
-It uses real local Qwen and Whisper with temporary recordings, not your saved interview.
-Expect one generation plus up to thirty analyses (one original answer and two follow-ups per
-question). This is an opt-in diagnostic, not a command to run routinely. It does not test the
-physical microphone or audible browser playback.
-
-To replay an already saved answer without retranscribing or altering its original files:
-
-```bash
-INTERVIEW_SAVED_METADATA=/absolute/path/to/metadata.json python -m pytest tests/test_adaptive_flow.py::test_live_saved_answer_to_visible_followup -q -s
-```
-
-This opt-in check uses the latest answer in that file, local Qwen, temporary output files,
-and synthetic resume/JD context. Use a session whose last answer should warrant a follow-up.
-
 ## Security
 
 Resume and job-description text are held in memory. The configured provider receives this text
