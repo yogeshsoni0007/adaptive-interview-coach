@@ -1,6 +1,13 @@
 # Runtime dependencies
 # OpenAI-compatible model client for generating interview questions
 openai>=1.109.0,<2
+
+# OpenAI-compatible model client
+openai>=1.109.0,<2
+
+# Native Anthropic Messages API client
+anthropic>=1,<2
+
 # Structured validation for model responses and application data
 pydantic>=2.11.0,<3
 # Extract text from PDF resumes and job descriptions
