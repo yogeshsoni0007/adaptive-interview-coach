@@ -28,3 +28,4 @@ dist/
 /concept_clarification
 /tests
 /src/interview_coach/tts/tests
+/supabase/migrations
