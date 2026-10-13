@@ -9,6 +9,7 @@ description = "Generate role-specific interview questions from a resume and job 
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+  "httpx>=0.28.0,<1", # Shared TTS REST transport; no provider-specific SDKs.
   "openai>=1.109.0,<2",
   "anthropic>=1,<2",
   "pydantic>=2.11.0,<3",
@@ -28,9 +29,12 @@ dev = [
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+"interview_coach.tts" = ["*.js", "*.html", "README.md"]
+
 [tool.pytest.ini_options]
 pythonpath = ["src"]
-testpaths = ["tests"]
+testpaths = ["tests", "src/interview_coach/tts/tests"]
 
 [tool.ruff]
 line-length = 100
